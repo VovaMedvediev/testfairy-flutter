@@ -84,25 +84,6 @@ public class TestfairyFlutterPlugin implements MethodCallHandler, FlutterPlugin,
 	private static Map<WeakReference<Activity>, FlutterActivityMethodChannelPair> activityChannelMapping = new ConcurrentHashMap<>();
 	private static long lastTimeHiddenRectsSent = 0;
 
-	/**
-	 * Plugin registration. (Mandatory)
-	 */
-	public static void registerWith(Registrar registrar) {
-		final MethodChannel channel = new MethodChannel(registrar.messenger(), "testfairy");
-		final TestfairyFlutterPlugin testfairyFlutterPlugin = new TestfairyFlutterPlugin();
-
-		testfairyFlutterPlugin.methodChannelWeakReference = new WeakReference<>(channel);
-		testfairyFlutterPlugin.contextWeakReference = new WeakReference<>(registrar.context());
-		testfairyFlutterPlugin.activityWeakReference = new WeakReference<>(registrar.activity());
-
-		channel.setMethodCallHandler(testfairyFlutterPlugin);
-
-		activityChannelMapping.put(
-				new WeakReference<>(registrar.activity()),
-				new FlutterActivityMethodChannelPair(registrar.activity(), channel)
-		);
-	}
-
 	@Override
 	public void onAttachedToEngine(FlutterPluginBinding binding) {
 		final MethodChannel channel = new MethodChannel(binding.getBinaryMessenger(), "testfairy");
